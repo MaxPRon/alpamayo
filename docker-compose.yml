@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  alpamayo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: alpamayo-r1:latest
+    container_name: alpamayo-r1
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      - .:/workspace
+      - alpamayo-cache:/root/.cache
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    ipc: host
+    shm_size: '8gb'
+
+volumes:
+  alpamayo-cache:
+

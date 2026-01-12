@@ -1,0 +1,52 @@
+{
+  "name": "Alpamayo R1 Development",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "runArgs": [
+    "--gpus=all",
+    "--ipc=host"
+  ],
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "charliermarsh.ruff"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/opt/venv/bin/python",
+        "python.terminal.activateEnvironment": true,
+        "python.linting.enabled": true,
+        "python.linting.ruffEnabled": true,
+        "python.formatting.provider": "none",
+        "[python]": {
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+          }
+        },
+        "jupyter.kernels.filter": [
+          {
+            "type": "pythonEnvironment",
+            "path": "/opt/venv/bin/python"
+          }
+        ]
+      }
+    }
+  },
+  "postCreateCommand": "echo 'Container ready! Run: hf auth login'",
+  "remoteUser": "root",
+  "workspaceFolder": "/workspace"
+}
+

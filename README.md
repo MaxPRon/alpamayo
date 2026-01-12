@@ -41,6 +41,81 @@ hf auth login
 
 Get your token at: https://huggingface.co/settings/tokens
 
+## Docker Setup
+
+### Prerequisites
+- Docker with NVIDIA Container Toolkit installed
+- NVIDIA GPU with CUDA support
+
+### Using Docker Compose (Recommended)
+
+```bash
+# Build and start the container
+docker-compose build
+docker-compose up -d
+
+# Access the container
+docker-compose exec alpamayo bash
+
+# Inside the container, install dependencies system-wide:
+# PyTorch with CUDA is already pre-installed, so install remaining dependencies
+# Install dependencies first, then the package (order matters for imports to work)
+
+# Option 1: Using traditional pip (simpler, recommended)
+# requirements.txt includes version constraints for numpy/pyarrow to prevent conflicts
+pip install -r requirements.txt  # Install dependencies including scipy (version constraints prevent upgrades)
+pip install "scipy>=1.14.0" --upgrade  # Ensure scipy>=1.14.0 for RigidTransform (required by physical_ai_av)
+pip install --no-deps physical_ai_av>=0.1.0  # Install with --no-deps to bypass numpy>=2.0.0 requirement
+pip install -e . --no-deps  # Install package in editable mode system-wide
+
+# Option 2: Using uv (if you prefer uv)
+# uv pip install --system -r requirements.txt
+# uv pip install --system -e . --no-deps
+
+# Authenticate with HuggingFace
+hf auth login
+```
+
+### Using Docker directly
+
+```bash
+# Build the image
+docker build -t alpamayo-r1:latest .
+
+# Run the container with GPU support
+docker run --gpus all --ipc=host -it -v $(pwd):/workspace alpamayo-r1:latest bash
+
+# Inside the container, install dependencies system-wide:
+# PyTorch is already pre-installed, install remaining dependencies
+pip install --upgrade-strategy only-if-needed -r requirements.txt  # Won't upgrade existing packages
+pip install -e . --no-deps  # Install package in editable mode system-wide
+hf auth login
+```
+
+### Using VS Code Dev Containers
+
+1. Open the repository in VS Code
+2. Press `F1` and select "Dev Containers: Reopen in Container"
+3. VS Code will build and start the container automatically
+4. Once inside, install dependencies system-wide:
+   ```bash
+   # PyTorch with CUDA is already pre-installed
+   # requirements.txt includes version constraints to prevent conflicts
+   pip install -r requirements.txt
+   pip install "scipy>=1.14.0" --upgrade  # Ensure scipy>=1.14.0 for RigidTransform
+   pip install --no-deps physical_ai_av>=0.1.0  # Install with --no-deps to bypass numpy>=2.0.0 requirement
+   pip install -e . --no-deps
+   hf auth login  # Required to access the gated dataset
+   ```
+
+**Note:** The Docker container uses `nvcr.io/nvidia/pytorch:25.08-py3` which includes PyTorch 2.8.0 with CUDA support, Python 3.12, and CUDA 13.0 pre-installed. You still need to create the virtual environment and install dependencies using `uv sync` as described in the original setup instructions.
+
+**NGC Access:** To pull the NVIDIA PyTorch image, you may need to authenticate with NGC:
+```bash
+docker login nvcr.io
+# Use your NGC API key (get it from https://ngc.nvidia.com/setup/api-key)
+```
+
 ## Running Inference
 
 ### Test script

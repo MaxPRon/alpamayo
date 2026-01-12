@@ -373,7 +373,7 @@ class ReasoningVLA(PreTrainedModel, TrajectoryFusionMixin):
         vlm_config = Qwen3VLConfig.from_pretrained(
             config.vlm_name_or_path,
             dtype=config.model_dtype,
-            attn_implementation=config.attn_implementation,
+            attn_implementation="sdpa",
         )
         self.original_vocab_size = vlm_config.text_config.vocab_size
         vlm_config.text_config.vocab_size = config.vocab_size
@@ -412,7 +412,7 @@ class ReasoningVLA(PreTrainedModel, TrajectoryFusionMixin):
         vlm = Qwen3VLForConditionalGeneration.from_pretrained(
             config.vlm_name_or_path,
             dtype=config.model_dtype,
-            attn_implementation=config.attn_implementation,
+            attn_implementation="sdpa",
         )
 
         original_vocab_size = vlm.config.text_config.vocab_size

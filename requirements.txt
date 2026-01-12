@@ -1,0 +1,24 @@
+# Dependencies from pyproject.toml
+# Note: torch and torchvision are excluded as they're pre-installed in Docker containers
+# Note: numpy, pandas, pyarrow versions are constrained by pre-installed packages in NVIDIA container
+
+# Constrain numpy and pyarrow to prevent conflicts with pre-installed packages
+# Pre-installed packages require: numpy<2.0.0 (torch-tensorrt), numpy<2.3 (cupy), numpy<1.27 (numba), pyarrow<20.0.0 (cudf)
+numpy<1.27,>=1.22  # Constrain to satisfy all pre-installed packages
+pyarrow<20.0.0,>=14.0.0  # Constrain to satisfy cudf requirements
+
+# Core dependencies
+accelerate>=1.12.0
+av>=16.0.1
+einops>=0.8.1
+hydra-colorlog>=1.2.0
+hydra-core>=1.3.2
+# pandas>=2.3.3  # Commented out - conflicts with cudf (needs <2.2.4), will use pre-installed version
+# physical_ai_av>=0.1.0  # Install separately with --no-deps to bypass numpy>=2.0.0 requirement
+pillow>=12.0.0
+transformers==4.57.1
+# Resolve conflict: physical-ai-av needs >=0.36.0, transformers needs <1.0 and >=0.34.0
+huggingface-hub>=0.36.0,<1.0
+# physical_ai_av dependencies (installed separately because physical_ai_av uses --no-deps)
+scipy>=1.14.0  # Required for scipy.spatial.transform.RigidTransform (added in scipy 1.14.0)
+
