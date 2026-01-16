@@ -1,0 +1,4 @@
+Trajectory #1:
+['Nudge to the left to increase clearance from the construction vehicle encroaching on the lane.']
+--------------------------------------------------------------------------------
+

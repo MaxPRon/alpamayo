@@ -1,0 +1,55 @@
+{
+  "total_clips": 1,
+  "successful_clips": 1,
+  "model_load_time_seconds": 19.592146396636963,
+  "total_processing_time_seconds": 32.80027890205383,
+  "average_inference_time_seconds": 5.49775242805481,
+  "average_time_per_image_seconds": 0.3436095267534256,
+  "average_min_ade_meters": 1.4460983276367188,
+  "total_images_processed": 16,
+  "gpu_info": {
+    "available": true,
+    "device_name": "NVIDIA Thor",
+    "device_count": 1,
+    "current_device": 0,
+    "memory_allocated_gb": 0.0,
+    "memory_reserved_gb": 0.0,
+    "gpu_utilization_percent": 0.0,
+    "nvidia_smi_error": "could not convert string to float: '[N/A]'"
+  },
+  "metrics_per_clip": [
+    {
+      "clip_id": "030c760c-ae38-49aa-9ad8-f5650a545d26",
+      "num_images": 16,
+      "load_time_seconds": 23.88447880744934,
+      "inference_time_seconds": 5.49775242805481,
+      "time_per_image_seconds": 0.3436095267534256,
+      "min_ade_meters": 1.4460983276367188,
+      "num_traj_samples": 1,
+      "top_p": 0.98,
+      "temperature": 0.6,
+      "gpu_info_before": {
+        "available": true,
+        "device_name": "NVIDIA Thor",
+        "device_count": 1,
+        "current_device": 0,
+        "memory_allocated_gb": 20.646063327789307,
+        "memory_reserved_gb": 20.875,
+        "gpu_utilization_percent": 0.0,
+        "nvidia_smi_error": "could not convert string to float: '[N/A]'"
+      },
+      "gpu_info_after": {
+        "available": true,
+        "device_name": "NVIDIA Thor",
+        "device_count": 1,
+        "current_device": 0,
+        "memory_allocated_gb": 20.720806121826172,
+        "memory_reserved_gb": 21.978515625,
+        "gpu_utilization_percent": 0.0,
+        "nvidia_smi_error": "could not convert string to float: '[N/A]'"
+      },
+      "timestamp": "2026-01-16T11:28:34.488105"
+    }
+  ],
+  "timestamp": "2026-01-16T11:28:34.489182"
+}

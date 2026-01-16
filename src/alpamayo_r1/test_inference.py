@@ -19,6 +19,7 @@
 
 import torch
 import numpy as np
+import time
 
 from alpamayo_r1.models.alpamayo_r1 import AlpamayoR1
 from alpamayo_r1.load_physical_aiavdataset import load_physical_aiavdataset
@@ -53,6 +54,7 @@ model_inputs = helper.to_device(model_inputs, "cuda")
 
 torch.cuda.manual_seed_all(42)
 with torch.autocast("cuda", dtype=torch.bfloat16):
+    start_time = time.time()
     pred_xyz, pred_rot, extra = model.sample_trajectories_from_data_with_vlm_rollout(
         data=model_inputs,
         top_p=0.98,
@@ -62,6 +64,9 @@ with torch.autocast("cuda", dtype=torch.bfloat16):
         return_extra=True,
     )
 
+end_time = time.time()
+inference_time = end_time - start_time
+print(f"Inference completed in {inference_time:.2f} seconds.")
 # the size is [batch_size, num_traj_sets, num_traj_samples]
 print("Chain-of-Causation (per trajectory):\n", extra["cot"][0])
 
